@@ -27,10 +27,11 @@ class LoginPage extends StatelessWidget {
             children: [
               const SizedBox(height: 50),
 
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  SquareTile(imagePath: 'lib/images/download.jpg'),
+                children: [
+                  SquareTile(imagePath: "assets/image/Logo.png"),
+
 
                   SizedBox(width: 25),
                 ],
@@ -38,7 +39,6 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 50),
 
-              // welcome back, you've been missed!
               Text(
                 'Welcome back you\'ve been missed!',
                 style: TextStyle(
@@ -49,7 +49,6 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              // username textfield
               MyTextField(
                 controller: emailController,
                 hintText: 'Email',
@@ -59,7 +58,6 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // password textfield
               MyTextField(
                 controller: passwordController,
                 hintText: 'Password',
@@ -68,7 +66,6 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // forgot password?
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -92,7 +89,6 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 50),
 
-              // not a member? register now
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -114,7 +110,6 @@ class LoginPage extends StatelessWidget {
                   ),
                 ],
               )
-
             ],
           ),
         ),

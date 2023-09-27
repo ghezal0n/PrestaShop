@@ -31,13 +31,13 @@ class RegisterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // google button
-                  SquareTile(imagePath: 'lib/images/download.jpg'),
+                  SquareTile(imagePath: "assets/image/Logo.png"),
 
-                  SizedBox(width: 25),
+                  SizedBox(width: 15),
                 ],
               ),
 
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
 
               // username textfield
               MyTextField(
@@ -72,7 +72,7 @@ class RegisterPage extends StatelessWidget {
                 onTap: signIn,
               ),
 
-              const SizedBox(height: 25),
+              const SizedBox(height: 10),
 
               // not a member? register now
               Row(

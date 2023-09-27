@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prestashop_app/pages/LoginPage.dart';
+import 'package:prestashop_app/splashScreen.dart';
 import 'package:provider/provider.dart';
 
 import 'model/cardModel.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         create: (context) => CartModel(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: LoginPage(),
+          home: SplashScreen(),
         )
     );
   }
