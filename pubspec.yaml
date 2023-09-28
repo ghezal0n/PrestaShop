@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^4.0.4
   animation_search_bar: ^0.0.10
+  anim_search_bar: ^2.0.3
   provider: ^5.0.0
 
 dev_dependencies:

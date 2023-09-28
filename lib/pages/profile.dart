@@ -115,13 +115,19 @@ class _MyProfileState extends State<MyProfile> {
           Positioned(
             top: 20,
             right: 20,
-            child: IconButton(
-              icon: Icon(Icons.exit_to_app_rounded ), // Icône de votre bouton
-              onPressed: () {
+            child: InkWell(
+              onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  LoginPage()));
               },
+              child: const Row(
+                children: [
+                  Icon(Icons.exit_to_app_rounded),
+                  SizedBox(width: 8),
+                  Text("Logout"),
+                ],
+              ),
             ),
-          ),
+          )
         ],
       ),
     );

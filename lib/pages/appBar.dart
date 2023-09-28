@@ -16,13 +16,12 @@ class MyAppBar extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyAppBar> {
- int _currentIndex = 0;
- final screens =[
-   HomePage(),
-   CartPage(),
-   MyProfile(),
-
- ];
+  int _currentIndex = 0;
+  final screens = [
+    HomePage(),
+    CartPage(),
+    MyProfile(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +33,6 @@ class _MyAppState extends State<MyAppBar> {
       ),
       home: Scaffold(
         body: screens[_currentIndex],
-        appBar: AppBar(
-          title: Text(MyAppBar.title),
-        ),
         bottomNavigationBar: SalomonBottomBar(
           currentIndex: _currentIndex,
           onTap: (i) => setState(() => _currentIndex = i),
@@ -64,6 +60,7 @@ class _MyAppState extends State<MyAppBar> {
           ],
         ),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
