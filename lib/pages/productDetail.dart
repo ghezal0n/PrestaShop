@@ -89,7 +89,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           SalomonBottomBarItem(
             icon: Icon(Icons.home),
             title: Text("HOME"),
-            selectedColor: Colors.lightBlue,
+            selectedColor: Colors.blue,
           ),
           SalomonBottomBarItem(
             icon: Icon(Icons.shopping_bag),

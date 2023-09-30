@@ -34,9 +34,9 @@ class _HomeState extends State<HomePage> {
     Data("All", Colors.blueAccent),
     Data("Men", Colors.blueAccent),
     Data("Women", Colors.blueAccent),
-    Data("Choice 3", Colors.blueAccent),
-    Data("Choice 4", Colors.blueAccent),
-    Data("Choice 4", Colors.blueAccent),
+    Data("Home", Colors.blueAccent),
+    Data("Home Accessories", Colors.blueAccent),
+    Data("Art", Colors.blueAccent),
   ];
   List _searchResult = [];
   bool _firstRender = true;
@@ -44,8 +44,6 @@ class _HomeState extends State<HomePage> {
   void initState() {
     super.initState();
     controller = TextEditingController();
-
-
     //TextEditingController controller = TextEditingController();
   }
 
@@ -72,7 +70,7 @@ class _HomeState extends State<HomePage> {
   List searchItems(List items, String search) {
     List searchResult = [];
     items.forEach((element) {
-      if (element['name'].contains(search)) {
+      if ((element['name'] as String).toLowerCase().contains(search.toLowerCase())) {
         searchResult.add(element);
       }
     });
@@ -90,18 +88,6 @@ class _HomeState extends State<HomePage> {
       });
     }
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return const CartPage();
-            },
-          ),
-        ),
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.shopping_bag),
-      ),
       body: SafeArea(
         //const SizedBox(height: 40),
         /* const SizedBox(height: 4),
