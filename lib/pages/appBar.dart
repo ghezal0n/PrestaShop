@@ -37,21 +37,18 @@ class _MyAppState extends State<MyAppBar> {
           currentIndex: _currentIndex,
           onTap: (i) => setState(() => _currentIndex = i),
           items: [
-            /// Home
             SalomonBottomBarItem(
               icon: Icon(Icons.home),
               title: Text("HOME"),
               selectedColor: Colors.lightBlue,
             ),
 
-            /// Likes
             SalomonBottomBarItem(
               icon: Icon(Icons.shopping_bag),
-              title: Text("CARD"),
+              title: Text("CART"),
               selectedColor: Colors.blue,
             ),
 
-            /// Profile
             SalomonBottomBarItem(
               icon: Icon(Icons.person),
               title: Text("PROFILE"),

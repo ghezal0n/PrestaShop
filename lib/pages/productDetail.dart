@@ -1,66 +1,107 @@
 import 'package:flutter/material.dart';
+import 'package:prestashop_app/pages/profile.dart';
+import 'card.dart';
+import 'homePage.dart';
+import 'salamon_bottom_bar.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   final String imageUrl;
   final String productName;
   final String prodcutPrice;
   final String productDescription;
-
 
   ProductDetailPage({
     required this.imageUrl,
     required this.productName,
     required this.prodcutPrice,
     required this.productDescription,
-
   });
+
+  @override
+  _ProductDetailPageState createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  int _currentIndex = 0;
+  final screens = [
+    HomePage(),
+    CartPage(),
+    MyProfile(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détails du Produit'),
+        title: Text('Product detail'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Image du produit
-            Image.network(
-              imageUrl,
-              width: 200,
-              height: 200,
-              fit: BoxFit.cover, // Ajustez le mode d'ajustement de l'image
+            Center(
+              child: Image.network(
+                widget.imageUrl,
+                width: 200,
+                height: 200,
+                fit: BoxFit.cover,
+              ),
             ),
             SizedBox(height: 20),
-
-            Text(
-              productName,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            Center(
+              child: Row(
+                children: [
+                  SizedBox(width: 5),
+                  Text(
+                    widget.productName,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Spacer(),
+                  Text(
+                    '\$' + widget.prodcutPrice,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 10),
-
+            SizedBox(height: 15),
             Text(
-              '\$'+ prodcutPrice,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-
-            Text(
-              productDescription,
+              widget.productDescription,
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: SalomonBottomBar(
+        currentIndex: _currentIndex,
+        onTap: (i) => setState(() => _currentIndex = i),
+        items: [
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home),
+            title: Text("HOME"),
+            selectedColor: Colors.lightBlue,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.shopping_bag),
+            title: Text("CARD"),
+            selectedColor: Colors.blue,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person),
+            title: Text("PROFILE"),
+            selectedColor: Colors.blue,
+          ),
+        ],
       ),
     );
   }
