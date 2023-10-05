@@ -33,7 +33,7 @@ class GroceryItemTile extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: onNavigateToDetail, // Utilisez la fonction de navigation lorsque vous appuyez sur l'image
-              child: Image.asset(
+              child: Image.network(
                 imagePath,
                 height: 75,
               ),
@@ -43,7 +43,7 @@ class GroceryItemTile extends StatelessWidget {
               onPressed: onAddToCart, // Utilisez la fonction pour ajouter au panier lorsque vous appuyez sur le prix
               color: color[800],
               child: Text(
-                '\$$itemPrice',
+                itemPrice,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

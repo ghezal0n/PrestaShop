@@ -1,10 +1,16 @@
+import 'dart:convert';
+import 'dart:ffi';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:prestashop_app/pages/appBar.dart';
 import 'package:prestashop_app/pages/RegisterPage.dart';
-import 'package:prestashop_app/pages/profile.dart';
+import 'package:provider/provider.dart';
 import '../components/my_Button.dart';
 import '../components/my_textfield.dart';
 import '../components/square_title.dart';
+import 'package:http/http.dart' as http;
+
+import '../model/cardModel.dart';
+import 'appBar.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -13,11 +19,33 @@ class LoginPage extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+
   // sign user in method
-  void signIn() {}
+  Future<String?> signIn(String email, String password ) async {
+    final Uri url = Uri.https('rest.binshops.com','rest/login');
+    print(email);
+    print(password);
+    final response = await http.post(url, headers: { "Access-Control-Allow-Origin": "*" } , body: jsonEncode(<String, String>{
+      "email": email,
+      "password": password,
+    }));
+
+    if (response.statusCode == 200) {
+      String? longCookie = response.headers['set-cookie'];
+      int indexOfSecondCookie = longCookie!.indexOf("PrestaShop", 20);
+      String cookie = longCookie.substring(indexOfSecondCookie, longCookie.indexOf(";", indexOfSecondCookie));
+      return cookie;
+    } else {
+      return null;
+      //popup,chaineVide
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    final cartModel = Provider.of<CartModel>(context);
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -54,6 +82,7 @@ class LoginPage extends StatelessWidget {
                 hintText: 'Email',
                 labelText: 'email',
                 obscureText: false, labelStyle: '',
+
               ),
 
               const SizedBox(height: 10),
@@ -62,6 +91,7 @@ class LoginPage extends StatelessWidget {
                 controller: passwordController,
                 hintText: 'Password',
                 obscureText: true, labelText: '', labelStyle: '',
+
               ),
 
               const SizedBox(height: 10),
@@ -83,7 +113,19 @@ class LoginPage extends StatelessWidget {
 
               // sign in button
               MyButton(
-                 onTap: () { Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  MyAppBar()));
+                 onTap: () async {
+                   final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                 signIn(emailController.text, passwordController.text).then((value) async =>
+                   {
+                     if ( value != null){
+                       cartModel.cookie = value,
+                     await prefs.setString('cookie', value),
+                       Navigator.of(context).push(
+                       MaterialPageRoute(builder: (context) => MyAppBar()))
+                 }
+                   });
+
                  },
               ),
 

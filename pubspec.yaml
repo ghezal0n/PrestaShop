@@ -35,6 +35,8 @@ dependencies:
   animation_search_bar: ^0.0.10
   anim_search_bar: ^2.0.3
   provider: ^5.0.0
+  http: ^1.1.0
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:

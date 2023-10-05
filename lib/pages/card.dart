@@ -44,15 +44,15 @@ class CartPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0)
                           ),
                           child: ListTile(
-                              leading: Image.asset(
-                                value.cartItems[index][2],
+                              leading: Image.network(
+                                value.cartItems[index]['image'],
                                 height: 38,
                               ),
                               title: Text(
-                                value.cartItems[index][0],
+                                value.cartItems[index]['name'],
                               ),
                               subtitle: Text(
-                                '\$' + value.cartItems[index][1],
+                                value.cartItems[index]['price'],
                               ),
                               trailing: IconButton(
                                 icon: const Icon(Icons.cancel),
@@ -88,7 +88,7 @@ class CartPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 10,),
                             Text(
-                              '\$' + value.calculTotal(),
+                              value.calculTotal(),
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,

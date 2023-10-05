@@ -1,15 +1,71 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'LoginPage.dart';
+import 'package:http/http.dart' as http;
 
 class MyProfile extends StatefulWidget {
-  const MyProfile({Key? key});
+   MyProfile({Key? key});
+
 
   @override
   State<MyProfile> createState() => _MyProfileState();
 }
+//https://rest.binshops.com/rest/accountInfo
+
 
 class _MyProfileState extends State<MyProfile> {
+
+
+  late String cookie;
+  List _profileData = [];
+
+  @override
+  void initState() {
+    fetchProducts();
+    super.initState();
+  }
+  Future<void> fetchProducts() async {
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      cookie = prefs.getString('cookie')!;
+      final Uri url = Uri.https('rest.binshops.com', 'rest/accountInfo', {
+
+      });
+      // final Uri url = Uri.https('rest.binshops.com', 'rest/wishlist', {
+      //   'action': 'viewWishlist',
+      //   'category_name': 'home',
+      // });
+      final response = await http.get(url, headers: {
+        "Cookie": cookie,
+      });
+
+      if (response.statusCode == 200) {
+        final List accounts = consumProfile(response.body);
+        _profileData = accounts;
+      } else {
+        throw Exception('Unable to fetch products from the REST API');
+      }
+
+  }
+  List consumProfile(String responseBody){
+    final accounts = json.decode(responseBody)['psdata'] as List;
+    List finalAccount = [];
+    for (int i = 0; i<accounts.length; i++) {
+      var item = accounts[i];
+      finalAccount.add({
+        'id': item['id'],
+        'firstName': item['firstname'],
+        'lastName': item['lastname'],
+        'email': item['email'],
+        'dateAdd': item['date_add'],
+      });
+    }
+    print(finalAccount);
+    return finalAccount;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +91,19 @@ class _MyProfileState extends State<MyProfile> {
                     foregroundImage: AssetImage("assets/image/Logo.png"),
                   ),
                 ),
+
+                Text(
+                  //"Votre texte ici",
+                   //_profileData[0]['id'],
+                  'ID: ${_profileData.isNotEmpty ? _profileData[0]['id'] : ''}',
+
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+
                 Row(
                   children: [
                     Text(

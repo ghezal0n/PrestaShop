@@ -63,7 +63,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   SizedBox(width: 16),
                   Spacer(),
                   Text(
-                    '\$' + widget.prodcutPrice,
+                    widget.prodcutPrice,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
           SalomonBottomBarItem(
             icon: Icon(Icons.shopping_bag),
-            title: Text("CARD"),
+            title: Text("CART"),
             selectedColor: Colors.blue,
           ),
           SalomonBottomBarItem(

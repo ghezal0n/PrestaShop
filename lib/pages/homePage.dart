@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import '../components/grocery_item_tile.dart';
 import '../model/cardModel.dart';
 import 'card.dart';
+import 'package:http/http.dart' as http;
+
 
 void main() => runApp(
     const MaterialApp(home: HomePage(), debugShowCheckedModeBanner: false));
@@ -29,6 +31,7 @@ class Data {
 
 class _HomeState extends State<HomePage> {
   late TextEditingController controller;
+  late CartModel cartModel;
   int _choiceIndex = 0;
   final List<Data> _choiceChipsList = [
     Data("All", Colors.blueAccent),
@@ -40,11 +43,15 @@ class _HomeState extends State<HomePage> {
   ];
   List _searchResult = [];
   bool _firstRender = true;
+
+
   @override
   void initState() {
     super.initState();
     controller = TextEditingController();
+
     //TextEditingController controller = TextEditingController();
+
   }
 
   void performSearch(List items, String searchTerm) {
@@ -79,12 +86,14 @@ class _HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final cartModel = Provider.of<CartModel>(context);
+    cartModel = Provider.of<CartModel>(context);
 
     if (_firstRender) {
-      setState(() {
+      cartModel.fetchProducts().then((value) => {
+        setState(() {
         _searchResult = cartModel.shopItems;
         _firstRender = false;
+        })
       });
     }
     return Scaffold(
@@ -156,7 +165,9 @@ class _HomeState extends State<HomePage> {
                   childAspectRatio: 1 / 1.3,
                 ),
                 itemBuilder: (context, index) {
-                  return GroceryItemTile(
+                  print('_searchResult[index]');
+                  print(_searchResult[index]['color']);
+                  var g = GroceryItemTile(
                     itemName: _searchResult[index]['name'],
                     itemPrice: _searchResult[index]['price'],
                     imagePath: _searchResult[index]['image'],
@@ -166,13 +177,16 @@ class _HomeState extends State<HomePage> {
                         _searchResult[index]['image'], // ImagePath
                         _searchResult[index]['name'], // NomProduit
                         _searchResult[index]['price'], // NomProduit
-                        "Description du produit", // Description du produit (remplacez-la par la description réelle si vous en avez une)
+                        _searchResult[index]['description'], // NomProduit
+                        //"Description du produit", // Description du produit (remplacez-la par la description réelle si vous en avez une)
                       );
                     },
                     onAddToCart: () {
                       cartModel.addItemToCart(index);
                     },
                   );
+                  print(g.itemName);
+                  return g;
                 },
               ),
             ),
