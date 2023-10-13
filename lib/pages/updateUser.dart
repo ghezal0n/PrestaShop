@@ -1,20 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:prestashop_app/pages/profile.dart';
 import '../components/my_Button.dart';
 import '../components/my_textfield.dart';
 import '../components/square_title.dart';
 import 'LoginPage.dart';
 import 'package:http/http.dart' as http;
 
-class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+class UpdatePage extends StatefulWidget {
+  UpdatePage({Key? key}) : super(key: key);
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _UpdatePageState createState() => _UpdatePageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _UpdatePageState extends State<UpdatePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
@@ -22,9 +23,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final firstnameController = TextEditingController();
   final lastnameController = TextEditingController();
 
-  Future<String?> signUp(
+  Future<String?> updateUser(
       String email, String password, String firstName, String lastName) async {
-    final Uri url = Uri.https('rest.binshops.com', 'rest/register');
+    final Uri url = Uri.https('rest.binshops.com', 'rest/accountedit');
 
     final response = await http.post(
       url,
@@ -49,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _handleSignUp() {
     if (_formKey.currentState!.validate()) {
-      signUp(
+      updateUser(
         emailController.text,
         passwordController.text,
         firstnameController.text,
@@ -60,7 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content:
-                  Text(result ?? "An error has occurred during registration"),
+              Text(result ?? "An error has occurred during registration"),
             ),
           );
         }
@@ -115,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscureText: true,
                   labelText: '',
                   labelStyle: '',
-                 /* validator: (value) {
+                  /* validator: (value) {
                     if (value.isEmpty) {
                       return 'Veuillez entrer un mot de passe';
                     } else if (value.length < 6) {
@@ -207,7 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => LoginPage()));
+                            builder: (context) => MyProfile()));
                       },
                       style: TextButton.styleFrom(
                         primary: Colors.blue,
@@ -215,7 +216,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      child: Text('Login now'),
+                      child: Text('Done'),
                     ),
                   ],
                 )

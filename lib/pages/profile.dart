@@ -1,24 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:prestashop_app/components/my_Button.dart';
+import 'package:prestashop_app/pages/updateUser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'LoginPage.dart';
 import 'package:http/http.dart' as http;
 
 class MyProfile extends StatefulWidget {
-   MyProfile({Key? key});
-
+  MyProfile({Key? key});
 
   @override
   State<MyProfile> createState() => _MyProfileState();
 }
-//https://rest.binshops.com/rest/accountInfo
-
 
 class _MyProfileState extends State<MyProfile> {
-
-
   late String cookie;
   List _profileData = [];
 
@@ -27,45 +24,69 @@ class _MyProfileState extends State<MyProfile> {
     fetchProducts();
     super.initState();
   }
+
   Future<void> fetchProducts() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    cookie = prefs.getString('cookie')!;
+    final Uri url = Uri.https('rest.binshops.com', 'rest/accountInfo', {});
+    final response = await http.get(url, headers: {
+      "Cookie": cookie,
+    });
 
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      cookie = prefs.getString('cookie')!;
-      final Uri url = Uri.https('rest.binshops.com', 'rest/accountInfo', {
-
-      });
-      // final Uri url = Uri.https('rest.binshops.com', 'rest/wishlist', {
-      //   'action': 'viewWishlist',
-      //   'category_name': 'home',
-      // });
-      final response = await http.get(url, headers: {
-        "Cookie": cookie,
-      });
-
-      if (response.statusCode == 200) {
-        final List accounts = consumProfile(response.body);
+    if (response.statusCode == 200) {
+      final List accounts = consumProfile(response.body);
+      setState(() {
         _profileData = accounts;
-      } else {
-        throw Exception('Unable to fetch products from the REST API');
-      }
-
-  }
-  List consumProfile(String responseBody){
-    final accounts = json.decode(responseBody)['psdata'] as List;
-    List finalAccount = [];
-    for (int i = 0; i<accounts.length; i++) {
-      var item = accounts[i];
-      finalAccount.add({
-        'id': item['id'],
-        'firstName': item['firstname'],
-        'lastName': item['lastname'],
-        'email': item['email'],
-        'dateAdd': item['date_add'],
       });
+
+      print('_profileData: $_profileData');
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
     }
-    print(finalAccount);
+    print('_profileData: $_profileData');
+    print('_profileData: ${_profileData[0]['id']}');
+
+    print('Response Status Code2: ${response.statusCode}');
+    print('Response Body2: ${response.body}');
+  }
+
+  // List consumProfile(String responseBody){
+  //   final accounts = json.decode(responseBody)['psdata'] as List;
+  //   List finalAccount = [];
+  //   for (int i = 0; i<accounts.length; i++) {
+  //     var item = accounts[i];
+  //     finalAccount.add({
+  //       'id': item['id'],
+  //       'firstName': item['firstname'],
+  //       'lastName': item['lastname'],
+  //       'email': item['email'],
+  //       'dateAdd': item['date_add'],
+  //     });
+  //   }
+  //   print(finalAccount);
+  //   return finalAccount;
+  // }
+
+  List consumProfile(String responseBody) {
+    final jsonBody = json.decode(responseBody);
+    final psdata = jsonBody['psdata'] as Map<String, dynamic>;
+
+    List finalAccount = []; // Declare finalAccount as an empty list
+
+    finalAccount.add({
+      'id': psdata['id'],
+      'firstName': psdata['firstname'],
+      'lastName': psdata['lastname'],
+      'email': psdata['email'],
+      'dateAdd': psdata['date_add'],
+    });
+
     return finalAccount;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,19 +112,6 @@ class _MyProfileState extends State<MyProfile> {
                     foregroundImage: AssetImage("assets/image/Logo.png"),
                   ),
                 ),
-
-                Text(
-                  //"Votre texte ici",
-                   //_profileData[0]['id'],
-                  'ID: ${_profileData.isNotEmpty ? _profileData[0]['id'] : ''}',
-
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-
                 Row(
                   children: [
                     Text(
@@ -120,12 +128,16 @@ class _MyProfileState extends State<MyProfile> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   tileColor: Color(0xFFA4DAE7),
-                  leading: Icon(Icons.mail),
-                  title: Text("First name"),
+                  leading: Icon(Icons.account_circle),
+                  //'First Name: ${_profileData.isNotEmpty ? _profileData[0]['firstName'] : 'Non disponible'}',
+                  title: Text(
+                    '${_profileData.isNotEmpty ? _profileData[0]['firstName'] : 'Non disponible'}',
+                  ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
+
                 Row(
                   children: [
                     Text(
@@ -142,8 +154,10 @@ class _MyProfileState extends State<MyProfile> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   tileColor: Color(0xFFA4DAE7),
-                  leading: Icon(Icons.mail),
-                  title: Text("Last name"),
+                  leading: Icon(Icons.account_circle),
+                  title: Text(
+                    '${_profileData.isNotEmpty ? _profileData[0]['lastName'].toString() : 'Non disponible'}',
+                  ),
                 ),
                 SizedBox(
                   height: 15,
@@ -165,7 +179,9 @@ class _MyProfileState extends State<MyProfile> {
                       borderRadius: BorderRadius.circular(10)),
                   tileColor: Color(0xFFA4DAE7),
                   leading: Icon(Icons.mail),
-                  title: Text("aoffahad@gmail.com"),
+                  title: Text(
+                    '${_profileData.isNotEmpty ? _profileData[0]['email'].toString() : 'Non disponible'}',
+                  ),
                 ),
                 SizedBox(
                   height: 15,
@@ -187,7 +203,9 @@ class _MyProfileState extends State<MyProfile> {
                       borderRadius: BorderRadius.circular(10)),
                   tileColor: Color(0xFFA4DAE7),
                   leading: Icon(Icons.more_outlined),
-                  title: Text("id"),
+                  title: Text(
+                    '${_profileData.isNotEmpty ? _profileData[0]['id'].toString() : 'Non disponible'}',
+                  ),
                 ),
                 SizedBox(
                   height: 15,
@@ -209,14 +227,38 @@ class _MyProfileState extends State<MyProfile> {
                       borderRadius: BorderRadius.circular(10)),
                   tileColor: Color(0xFFA4DAE7),
                   leading: Icon(Icons.date_range_outlined),
-                  title: Text("date_add"),
+                  title: Text(
+                    '${_profileData.isNotEmpty ? _profileData[0]['dateAdd'].toString() : 'Non disponible'}',
+                  ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
+                Row(
+                  children: [
+                    Positioned(
+                      top: 20,
+                      right: 20,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) => UpdatePage()));
+                        },
+                        child: const Row(
+                          children: [
+                            Icon(Icons.update),
+                            SizedBox(width: 8),
+                            Text("Edit account"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
+
           Positioned(
             top: 20,
             right: 20,

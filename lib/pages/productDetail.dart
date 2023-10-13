@@ -52,24 +52,24 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             Center(
               child: Row(
                 children: [
-                  SizedBox(width: 5),
+                  SizedBox(width: 40),
                   Text(
                     widget.productName,
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(width: 16),
-                  Spacer(),
-                  Text(
-                    widget.prodcutPrice,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ],
+              ),
+            ),
+            Text(
+              widget.prodcutPrice,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
               ),
             ),
             SizedBox(height: 15),

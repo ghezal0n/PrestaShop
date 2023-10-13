@@ -23,13 +23,13 @@ class CartPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Text(
+                 /* child: Text(
                     'My Cart',
                     style: GoogleFonts.notoSerif(
                       fontSize: 38,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
+                  ),*/
                 ),
                 Expanded(
                   child: ListView.builder(

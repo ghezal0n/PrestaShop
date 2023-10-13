@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:animation_search_bar/animation_search_bar.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prestashop_app/pages/productDetail.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../components/grocery_item_tile.dart';
 import '../model/cardModel.dart';
 import 'card.dart';
@@ -25,25 +27,29 @@ class HomePage extends StatefulWidget {
 class Data {
   String label;
   Color color;
+  String id;
 
-  Data(this.label, this.color);
+  Data(this.label, this.color, this.id);
 }
 
 class _HomeState extends State<HomePage> {
   late TextEditingController controller;
   late CartModel cartModel;
-  int _choiceIndex = 0;
+  late String cookie;
+  String _choiceIndex = '';
+
+
   final List<Data> _choiceChipsList = [
-    Data("All", Colors.blueAccent),
-    Data("Men", Colors.blueAccent),
-    Data("Women", Colors.blueAccent),
-    Data("Home", Colors.blueAccent),
-    Data("Home Accessories", Colors.blueAccent),
-    Data("Art", Colors.blueAccent),
+    Data("All", Colors.blueAccent,'1'),//1
+    Data("Men", Colors.blueAccent,'4'),//4
+    Data("Women", Colors.blueAccent,'5'),//5
+    Data("Home", Colors.blueAccent,'2'), //2
+    Data("Home Accessories", Colors.blueAccent,'8'),//8
+    Data("Art", Colors.blueAccent,'9'),//9
   ];
+
   List _searchResult = [];
   bool _firstRender = true;
-
 
   @override
   void initState() {
@@ -95,7 +101,17 @@ class _HomeState extends State<HomePage> {
         _firstRender = false;
         })
       });
-    }
+    }else{
+      
+         cartModel.fetchProductsByCategory(_choiceIndex).then((value) =>
+         {
+           setState(() {
+             _searchResult = cartModel.shopItems;
+             _firstRender = false;
+           })
+         });
+      } 
+    
     return Scaffold(
       body: SafeArea(
         //const SizedBox(height: 40),
@@ -126,21 +142,32 @@ class _HomeState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AnimSearchBar(
-              width: MediaQuery.of(context).size.width,
-              textController: controller,
-              onSuffixTap: () {
-                setState(() {
-                  controller.clear();
-                });
-              },
-              helpText: "Search..",
-              onSubmitted: (String searchTerm) {
-                performSearch(cartModel.shopItems, searchTerm);
-              },
-              autoFocus: true,
-              closeSearchOnSuffixTap: true,
-              rtl: true,
+            Row(
+              children: [
+                Text(
+                  "hi",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                AnimSearchBar(
+                  width: MediaQuery.of(context).size.width,
+                  textController: controller,
+                  onSuffixTap: () {
+                    setState(() {
+                      controller.clear();
+                    });
+                  },
+                  helpText: "Search..",
+                  onSubmitted: (String searchTerm) {
+                    performSearch(cartModel.shopItems, searchTerm);
+                  },
+                  autoFocus: true,
+                  closeSearchOnSuffixTap: true,
+                  rtl: true,
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -205,11 +232,11 @@ class _HomeState extends State<HomePage> {
           label: Text(_choiceChipsList[i].label),
           labelStyle: const TextStyle(color: Colors.white),
           backgroundColor: _choiceChipsList[i].color,
-          selected: _choiceIndex == i,
+          selected: _choiceIndex == _choiceChipsList[i].id,
           selectedColor: Colors.black,
           onSelected: (bool value) {
             setState(() {
-              _choiceIndex = i;
+              _choiceIndex = _choiceChipsList[i].id;
             });
           },
         ),

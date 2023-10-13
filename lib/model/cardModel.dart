@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/LoginPage.dart';
 
@@ -84,7 +85,7 @@ class CartModel extends ChangeNotifier {
         'color': colors[i % colors.length],
       });
     }
-    print(finalProducts);
+    //print(finalProducts);
     return finalProducts;
   }
 
@@ -104,6 +105,108 @@ class CartModel extends ChangeNotifier {
     } else {
       throw Exception('Unable to fetch products from the REST API');
     }
+  }
+
+  Future<void> fetchProductsByCategory(idCategory) async {
+    print("aaaaaaaaaa: "+idCategory);
+    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
+      'id_category': idCategory,
+      'page': '',
+      'with_all_images': '0',
+      'image_size': 'home_default',
+    });
+    final response = await http.get(url, headers: {
+      "Cookie": cookie,
+    });
+
+    if (response.statusCode == 200) {
+      final List products = parseProducts(response.body);
+      _shopItems = products;
+      notifyListeners();
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
+    }
+
+  }
+  Future<void> fetchMenProducts() async {
+    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
+      'id_category': '4',
+      'page': '',
+      'with_all_images': '0',
+      'image_size': 'home_default',
+    });
+    final response = await http.get(url, headers: {
+      "Cookie": cookie,
+    });
+
+    if (response.statusCode == 200) {
+      final List products = parseProducts(response.body);
+      _shopItems = products;
+      notifyListeners();
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
+    }
+
+  }
+  Future<void> fetchWomenProducts() async {
+    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
+      'id_category': '5',
+      'page': '',
+      'with_all_images': '0',
+      'image_size': 'home_default',
+    });
+    final response = await http.get(url, headers: {
+      "Cookie": cookie,
+    });
+
+    if (response.statusCode == 200) {
+      final List products = parseProducts(response.body);
+      _shopItems = products;
+      notifyListeners();
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
+    }
+
+  }
+  Future<void> fetchHomeAccessoriesProducts() async {
+    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
+      'id_category': '8',
+      'page': '',
+      'with_all_images': '0',
+      'image_size': 'home_default',
+    });
+    final response = await http.get(url, headers: {
+      "Cookie": cookie,
+    });
+
+    if (response.statusCode == 200) {
+      final List products = parseProducts(response.body);
+      _shopItems = products;
+      notifyListeners();
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
+    }
+
+  }
+  Future<void> fetchArtProducts() async {
+    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
+      'id_category': '9',
+      'page': '',
+      'with_all_images': '0',
+      'image_size': 'home_default',
+    });
+    final response = await http.get(url, headers: {
+      "Cookie": cookie,
+    });
+
+    if (response.statusCode == 200) {
+      final List products = parseProducts(response.body);
+      _shopItems = products;
+      notifyListeners();
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
+    }
+
   }
 
 
