@@ -32,15 +32,25 @@ class GroceryItemTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             GestureDetector(
-              onTap: onNavigateToDetail, // Utilisez la fonction de navigation lorsque vous appuyez sur l'image
+              onTap: onNavigateToDetail,
+              // Utilisez la fonction de navigation lorsque vous appuyez sur l'image
               child: Image.network(
                 imagePath,
                 height: 75,
               ),
             ),
-            Text(itemName),
+            Center(
+              child: Text(
+                itemName,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11,
+                ),
+              ),
+            ),
             MaterialButton(
-              onPressed: onAddToCart, // Utilisez la fonction pour ajouter au panier lorsque vous appuyez sur le prix
+              onPressed: onAddToCart,
+              // Utilisez la fonction pour ajouter au panier lorsque vous appuyez sur le prix
               color: color[800],
               child: Text(
                 itemPrice,

@@ -49,16 +49,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ),
             SizedBox(height: 20),
+
             Center(
               child: Row(
                 children: [
                   SizedBox(width: 40),
+                  Expanded(child:
                   Text(
                     widget.productName,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
                   ),
                   SizedBox(width: 16),
                 ],

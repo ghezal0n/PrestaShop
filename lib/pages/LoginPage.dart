@@ -49,6 +49,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
+        child: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -113,20 +114,20 @@ class LoginPage extends StatelessWidget {
 
               // sign in button
               MyButton(
-                 onTap: () async {
-                   final SharedPreferences prefs = await SharedPreferences.getInstance();
+                onTap: () async {
+                  final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                 signIn(emailController.text, passwordController.text).then((value) async =>
-                   {
-                     if ( value != null){
-                       cartModel.cookie = value,
-                     await prefs.setString('cookie', value),
-                       Navigator.of(context).push(
-                       MaterialPageRoute(builder: (context) => MyAppBar()))
-                 }
-                   });
+                  signIn(emailController.text, passwordController.text).then((value) async =>
+                  {
+                    if ( value != null){
+                      cartModel.cookie = value,
+                      await prefs.setString('cookie', value),
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => MyAppBar()))
+                    }
+                  });
 
-                 },
+                },
               ),
 
               const SizedBox(height: 50),
@@ -154,6 +155,7 @@ class LoginPage extends StatelessWidget {
               )
             ],
           ),
+        ),
         ),
       ),
     );

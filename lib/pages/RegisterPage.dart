@@ -39,6 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (response.statusCode == 200) {
       //nevLog
+      print("22");
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => LoginPage()));
       return "Done";
@@ -87,11 +88,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     // google button
                     SquareTile(imagePath: "assets/image/Logo.png"),
 
-                    SizedBox(width: 15),
+
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
 
                 MyTextField(
                   controller: emailController,
@@ -153,7 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },*/
                 ),
 
-                const SizedBox(height: 10),
+
 
                 /* MyButton(
                    onTap: () async {
@@ -191,34 +192,21 @@ class _RegisterPageState extends State<RegisterPage> {
                    //onTap: signUp(emailController.text,passwordController.text,firstnameController.text,lastnameController.text),
               ),*/
 
-
-
                 /*MyButton(
                   onTap: _handleSignUp, // Appeler la fonction de gestion de l'inscription
                 ),*/
 
                 const SizedBox(height: 10),
 
+                MyButton(
+                  onTap: () {
+                    signUp(emailController.text, passwordController.text, firstnameController.text, lastnameController.text);
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LoginPage()));
+                  },
+                ),
                 // not a member? register now
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(width: 4),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => LoginPage()));
-                      },
-                      style: TextButton.styleFrom(
-                        primary: Colors.blue,
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      child: Text('Login now'),
-                    ),
-                  ],
-                )
               ],
             ),
           ),

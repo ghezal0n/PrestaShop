@@ -9,7 +9,8 @@ import 'LoginPage.dart';
 import 'package:http/http.dart' as http;
 
 class MyProfile extends StatefulWidget {
-  MyProfile({Key? key});
+
+  MyProfile( {Key? key} );
 
   @override
   State<MyProfile> createState() => _MyProfileState();
@@ -39,18 +40,18 @@ class _MyProfileState extends State<MyProfile> {
         _profileData = accounts;
       });
 
-      print('_profileData: $_profileData');
+     /* print('_profileData: $_profileData');
 
       print('Response Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
+      print('Response Body: ${response.body}');*/
     } else {
       throw Exception('Unable to fetch products from the REST API');
     }
-    print('_profileData: $_profileData');
+    /*print('_profileData: $_profileData');
     print('_profileData: ${_profileData[0]['id']}');
 
     print('Response Status Code2: ${response.statusCode}');
-    print('Response Body2: ${response.body}');
+    print('Response Body2: ${response.body}');*/
   }
 
   // List consumProfile(String responseBody){
@@ -228,31 +229,48 @@ class _MyProfileState extends State<MyProfile> {
                   tileColor: Color(0xFFA4DAE7),
                   leading: Icon(Icons.date_range_outlined),
                   title: Text(
-                    '${_profileData.isNotEmpty ? _profileData[0]['dateAdd'].toString() : 'Non disponible'}',
+                    '${_profileData.isNotEmpty ? _profileData[0]['dateAdd'].toString() : 'Not avalible'}',
                   ),
                 ),
                 SizedBox(
                   height: 15,
                 ),
+
                 Row(
                   children: [
+                   Spacer(),
                     Positioned(
                       top: 20,
                       right: 20,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) => UpdatePage()));
-                        },
-                        child: const Row(
-                          children: [
-                            Icon(Icons.update),
-                            SizedBox(width: 8),
-                            Text("Edit account"),
-                          ],
+                      child: Container(
+                        width: 150,
+                        height: 50,
+                        child: InkWell(
+                          onTap: () {
+                            //updateUser(),
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => UpdatePage(_profileData[0]['firstName'],_profileData[0]['lastName'],_profileData[0]['email'],_profileData[0]['firstName'])));
+                          },
+                          child: Ink(
+                            decoration: BoxDecoration(
+
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.update),
+                                  SizedBox(width: 8),
+                                  Text("Edit account"),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
+                    Spacer(),
+
                   ],
                 ),
               ],

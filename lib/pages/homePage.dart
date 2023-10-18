@@ -144,33 +144,43 @@ class _HomeState extends State<HomePage> {
           children: [
             Row(
               children: [
-                Text(
-                  "hi",
+               /* Text(
+                  "hiii",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
-                AnimSearchBar(
-                  width: MediaQuery.of(context).size.width,
-                  textController: controller,
-                  onSuffixTap: () {
-                    setState(() {
-                      controller.clear();
-                    });
-                  },
-                  helpText: "Search..",
-                  onSubmitted: (String searchTerm) {
-                    performSearch(cartModel.shopItems, searchTerm);
-                  },
-                  autoFocus: true,
-                  closeSearchOnSuffixTap: true,
-                  rtl: true,
+                ),*/
+                Padding(
+                  padding: const EdgeInsets.symmetric(),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(),
+                        child: AnimSearchBar(
+                          width: MediaQuery.of(context).size.width,
+                          textController: controller,
+                          onSuffixTap: () {
+                            setState(() {
+                              controller.clear();
+                            });
+                          },
+                          helpText: "Search..",
+                          onSubmitted: (String searchTerm) {
+                            performSearch(cartModel.shopItems, searchTerm);
+                          },
+                          autoFocus: true,
+                          closeSearchOnSuffixTap: true,
+                          rtl: true,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(
                 'Categories',
                 style: TextStyle(

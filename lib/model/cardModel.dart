@@ -17,53 +17,7 @@ class CartModel extends ChangeNotifier {
     Colors.orange,
   ];
 
-  List _shopItems = [
-    // itemName, itemPrice, imagePath, color
-  /*  {
-      'name': 'Avocado',
-      'price':'4.00',
-      'image':'assets/image/Logo.png',
-      'color':Colors.green,
-    },
-    {
-      'name': 'Banana',
-      'price':'4.00',
-      'image':'assets/image/Logo.png',
-      'color':Colors.yellow,
-    },
-    {
-      'name': 'Chicken',
-      'price':'4.00',
-      'image':'assets/image/Logo.png',
-      'color':Colors.brown,
-    },
-    {
-      'name': 'Avocado banane',
-      'price':'4.00',
-      'image':'assets/image/Logo.png',
-      'color':Colors.yellow,
-    },
-    {
-      'name': 'Banana',
-      'price':'4.00',
-      'image':'assets/image/Logo.png',
-      'color':Colors.yellow,
-    },
-    {
-      'name': 'Water',
-      'price':'1.00',
-      'image':'assets/image/Logo.png',
-      'color':Colors.blue,
-    },*/
-
-    // ['Avocado', '4.00', "assets/image/Logo.png", Colors.green],
-    // ['Banana', '2.50', "assets/image/Logo.png", Colors.yellow],
-    // ['Chicken', '12.80', "assets/image/Logo.png", Colors.brown],
-    // ['Avocado', '4.00', "assets/image/Logo.png", Colors.green],
-    // ['Banana', '2.50', "assets/image/Logo.png", Colors.yellow],
-    // ['Chicken', '12.80', "assets/image/Logo.png", Colors.brown],
-    // ['Water', '1.00', "assets/image/Logo.png", Colors.blue]
-  ];
+  List _shopItems = [];
 
   final List _cartItems = [];
 
@@ -128,87 +82,6 @@ class CartModel extends ChangeNotifier {
     }
 
   }
-  Future<void> fetchMenProducts() async {
-    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
-      'id_category': '4',
-      'page': '',
-      'with_all_images': '0',
-      'image_size': 'home_default',
-    });
-    final response = await http.get(url, headers: {
-      "Cookie": cookie,
-    });
-
-    if (response.statusCode == 200) {
-      final List products = parseProducts(response.body);
-      _shopItems = products;
-      notifyListeners();
-    } else {
-      throw Exception('Unable to fetch products from the REST API');
-    }
-
-  }
-  Future<void> fetchWomenProducts() async {
-    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
-      'id_category': '5',
-      'page': '',
-      'with_all_images': '0',
-      'image_size': 'home_default',
-    });
-    final response = await http.get(url, headers: {
-      "Cookie": cookie,
-    });
-
-    if (response.statusCode == 200) {
-      final List products = parseProducts(response.body);
-      _shopItems = products;
-      notifyListeners();
-    } else {
-      throw Exception('Unable to fetch products from the REST API');
-    }
-
-  }
-  Future<void> fetchHomeAccessoriesProducts() async {
-    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
-      'id_category': '8',
-      'page': '',
-      'with_all_images': '0',
-      'image_size': 'home_default',
-    });
-    final response = await http.get(url, headers: {
-      "Cookie": cookie,
-    });
-
-    if (response.statusCode == 200) {
-      final List products = parseProducts(response.body);
-      _shopItems = products;
-      notifyListeners();
-    } else {
-      throw Exception('Unable to fetch products from the REST API');
-    }
-
-  }
-  Future<void> fetchArtProducts() async {
-    final Uri url = Uri.https('rest.binshops.com', 'rest/categoryProducts', {
-      'id_category': '9',
-      'page': '',
-      'with_all_images': '0',
-      'image_size': 'home_default',
-    });
-    final response = await http.get(url, headers: {
-      "Cookie": cookie,
-    });
-
-    if (response.statusCode == 200) {
-      final List products = parseProducts(response.body);
-      _shopItems = products;
-      notifyListeners();
-    } else {
-      throw Exception('Unable to fetch products from the REST API');
-    }
-
-  }
-
 
   void addItemToCart(int index) {
     _cartItems.add(_shopItems[index]);

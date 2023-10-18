@@ -9,7 +9,13 @@ import 'LoginPage.dart';
 import 'package:http/http.dart' as http;
 
 class UpdatePage extends StatefulWidget {
-  UpdatePage({Key? key}) : super(key: key);
+
+  String firstnameController;
+  String lastnameController;
+  String emailController;
+  String passwordController;
+
+  UpdatePage(this.firstnameController, this.lastnameController, this.emailController, this.passwordController, {Key? key}) : super(key: key);
 
   @override
   _UpdatePageState createState() => _UpdatePageState();
@@ -23,8 +29,8 @@ class _UpdatePageState extends State<UpdatePage> {
   final firstnameController = TextEditingController();
   final lastnameController = TextEditingController();
 
-  Future<String?> updateUser(
-      String email, String password, String firstName, String lastName) async {
+  Future<String?> updateUser(String email, String password, String firstName,
+      String lastName) async {
     final Uri url = Uri.https('rest.binshops.com', 'rest/accountedit');
 
     final response = await http.post(
@@ -56,8 +62,7 @@ class _UpdatePageState extends State<UpdatePage> {
         firstnameController.text,
         lastnameController.text,
       ).then((result) {
-        if (result == "Done") {
-        } else {
+        if (result == "Done") {} else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content:
@@ -95,10 +100,38 @@ class _UpdatePageState extends State<UpdatePage> {
                 const SizedBox(height: 20),
 
                 MyTextField(
+                  controller: firstnameController,
+                  hintText: 'Firstname',
+                  obscureText: false,
+                  labelText: widget.firstnameController,
+                  labelStyle: '',
+                  /*validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Veuillez entrer votre prénom';
+                    }
+                    return null;
+                  },*/
+                ),
+
+                MyTextField(
+                  controller: lastnameController,
+                  hintText: 'Lastname',
+                  obscureText: false,
+                  labelText: widget.lastnameController,
+                  labelStyle: '',
+                  /*validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Veuillez entrer votre nom';
+                    }
+                    return null;
+                  },*/
+                ),
+
+                MyTextField(
                   controller: emailController,
                   hintText: 'Email',
                   obscureText: false,
-                  labelText: '',
+                  labelText: widget.emailController,
                   labelStyle: '',
                   /*validator: (value) {
                     if (value.isEmpty) {
@@ -114,41 +147,13 @@ class _UpdatePageState extends State<UpdatePage> {
                   controller: passwordController,
                   hintText: 'Password',
                   obscureText: true,
-                  labelText: '',
+                  labelText: widget.passwordController,
                   labelStyle: '',
                   /* validator: (value) {
                     if (value.isEmpty) {
                       return 'Veuillez entrer un mot de passe';
                     } else if (value.length < 6) {
                       return 'Le mot de passe doit comporter au moins 6 caractères';
-                    }
-                    return null;
-                  },*/
-                ),
-
-                MyTextField(
-                  controller: firstnameController,
-                  hintText: 'Firstname',
-                  obscureText: false,
-                  labelText: '',
-                  labelStyle: '',
-                  /*validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Veuillez entrer votre prénom';
-                    }
-                    return null;
-                  },*/
-                ),
-
-                MyTextField(
-                  controller: lastnameController,
-                  hintText: 'Lastname',
-                  obscureText: false,
-                  labelText: '',
-                  labelStyle: '',
-                  /*validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Veuillez entrer votre nom';
                     }
                     return null;
                   },*/
@@ -192,12 +197,6 @@ class _UpdatePageState extends State<UpdatePage> {
                    //onTap: signUp(emailController.text,passwordController.text,firstnameController.text,lastnameController.text),
               ),*/
 
-
-
-                /*MyButton(
-                  onTap: _handleSignUp, // Appeler la fonction de gestion de l'inscription
-                ),*/
-
                 const SizedBox(height: 10),
 
                 // not a member? register now
@@ -209,6 +208,20 @@ class _UpdatePageState extends State<UpdatePage> {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => MyProfile()));
+                      },
+                      style: TextButton.styleFrom(
+                        primary: Colors.blue,
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      child: Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        updateUser(emailController.text, passwordController.text,firstnameController.text, lastnameController.text);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MyProfile(/*emailController.text, passwordController.text,firstnameController.text, lastnameController.text*/)));
                       },
                       style: TextButton.styleFrom(
                         primary: Colors.blue,
